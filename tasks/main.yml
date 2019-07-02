@@ -29,7 +29,10 @@
     - '{{ etcd_cluster_pki_dir }}'
 
 - include_tasks: pki.yml
-  when: etcd_secure
+  when: etcd_secure and not etcd_gen_certs
+
+- include_tasks: gen-pki.yml
+  when: etcd_secure and etcd_gen_certs
 
 - name: install etcd.service configuration
   become: yes
