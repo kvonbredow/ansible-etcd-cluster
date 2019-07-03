@@ -119,7 +119,8 @@
   shell: tar cz -C "{{ etcd_cluster_pki_dir }}" . | base64 --wrap=0
   args:
     warn: false
-  when: inventory_hostname == groups[etcd_master_group_name][0]
+  run_once: true
+  delegate_to: "{{ groups[etcd_master_group_name][0] }}"
   register: etcd_cert_bundle
 
 - name: gen-pki | Distribute tls bundle
@@ -127,5 +128,5 @@
   become_user: root
   shell: base64 -d | tar xz -C '{{ etcd_cluster_pki_dir }}'
   args:
-    stdin: "{{ hostvars[groups[etcd_master_group_name][0]]['etcd_cert_bundle'].stdout }}"
+    stdin: '{{ etcd_cert_bundle.stdout }}'
   when: not inventory_hostname == groups[etcd_master_group_name][0]

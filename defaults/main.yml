@@ -7,7 +7,6 @@ etcd_data_dir: /var/lib/etcd
 etcd_master_group_name: etcd-master
 
 etcd_secure: True
-etcd_gen_certs: False
 etcd_pki_dir: ~/pki-dir
 etcd_pki_csr_conf_suffix: -csr.conf
 etcd_pki_csr_suffix: .csr
